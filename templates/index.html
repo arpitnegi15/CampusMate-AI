@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusMate AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 CampusMate AI</h1>
+            <p>Your Smart College Assistant</p>
+        </div>
+
+        <div class="chat-container">
+            <div id="chatBox" class="chat-box">
+                <div class="bot-message">
+                    Hello! Welcome to CampusMate AI. I can help you with Library, Department, Attendance and more. What would you like to know?
+                </div>
+            </div>
+
+            <div class="quick-buttons">
+                <button class="quick-btn" onclick="sendQuick('Library')">Library</button>
+                <button class="quick-btn" onclick="sendQuick('Department')">Department</button>
+                <button class="quick-btn" onclick="sendQuick('Attendance')">Attendance</button>
+                <button class="quick-btn" onclick="sendQuick('Timetable')">Timetable</button>
+                <button class="quick-btn" onclick="sendQuick('Fees')">Fees</button>
+                <button class="quick-btn" onclick="sendQuick('Events')">Events</button>
+                <button class="quick-btn" onclick="sendQuick('Timetable')">Timetable</button>
+            </div>
+            <label style="font-size:13px; color:#1e3a5f;">
+    <input type="checkbox" id="voiceAnswer" checked> 🔊 Voice Answer ON
+</label>
+
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Ask your college question...">
+<button onclick="startVoice()" title="Speak">🎤</button>
+<button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

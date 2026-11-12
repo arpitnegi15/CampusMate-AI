@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - CampusMate AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .admin-box { background: white; padding: 20px; border-radius: 15px; margin: 20px auto; max-width: 700px; }
+        input, textarea, select { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; }
+        button { background: #1e3a5f; color: white; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; }
+        .item { background: #f0f6ff; padding: 10px; margin: 8px 0; border-radius: 10px; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="admin-box">
+        <h2>Admin Panel - CampusMate AI</h2>
+        <p>Add new question, bot will answer it instantly.</p>
+        <a href="/">Back to Chat</a><hr>
+        <h3>Add New FAQ</h3>
+        <input id="keyword" placeholder="Keyword e.g. hostel">
+        <input id="question" placeholder="Question e.g. What are hostel timings?">
+        <textarea id="answer" placeholder="Answer"></textarea>
+        <select id="category"><option>General</option><option>Library</option><option>Faculty</option><option>Exam</option><option>Placement</option><option>Transport</option></select>
+        <button onclick="addFaq()">Add FAQ</button>
+
+        <h3 style="margin-top:25px;">Add New Event</h3>
+        <input id="title" placeholder="Event Title">
+        <input id="date" type="date">
+        <input id="time" placeholder="Time e.g. 10:00 AM">
+        <input id="venue" placeholder="Venue">
+        <textarea id="desc" placeholder="Description"></textarea>
+        <button onclick="addEvent()">Add Event</button>
+
+        <h3 style="margin-top:25px;">Latest FAQs (20)</h3>
+        {% for f in faqs %}
+        <div class="item"><span><b>{{ f['question'] }}</b><br>{{ f['answer'][:80] }}...</span><button data-id="{{ f['id'] }}" onclick="delFaq(this)">Delete</button></div>
+        {% endfor %}
+    </div>
+
+    <script>
+        async function addFaq(){
+            const data = { keyword: document.getElementById('keyword').value, question: document.getElementById('question').value, answer: document.getElementById('answer').value, category: document.getElementById('category').value };
+            await fetch('/api/add_faq', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+            alert('FAQ Added! Bot now knows it.'); location.reload();
+        }
+        async function addEvent(){
+            const data = { title: document.getElementById('title').value, date: document.getElementById('date').value, time: document.getElementById('time').value, venue: document.getElementById('venue').value, description: document.getElementById('desc').value };
+            await fetch('/api/add_event', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+            alert('Event Added!'); location.reload();
+        }
+        async function delFaq(button){ const id = button.dataset.id; await fetch('/api/delete_faq/'+id, {method:'DELETE'}); location.reload(); }
+    </script>
+</body>
+</html>
